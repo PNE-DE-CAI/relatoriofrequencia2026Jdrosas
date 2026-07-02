@@ -560,7 +560,7 @@ turmaKeys.forEach(tk=>{
           return `<tr>
             <td style="color:#94a3b8;font-weight:600">${i+1}</td>
             <td style="font-weight:600;color:#0a2f6c">${d.a}</td>
-            <td><span class="${d.pa<50?'risk-high':d.pa<70?'risk-med':'risk-low'}">${d.pa<50?'ALTO':d.pa<70?'MÉDIO':'ATENÇÃO'}</span></td>
+            <td><span class="${d.pa<50?'risk-high':d.pa<70?'risk-med':'risk-low'}">${d.pa<50?'ALTISSIMO':d.pa<70?'ALTO':'ATENÇÃO'}</span></td>
             <td><span class="${cls(d.pa)}">${d.pa.toFixed(1)}%</span>
               <div class="sc-bar" style="width:80px;height:4px;margin-top:3px"><div class="sc-bar-fill ${barCls(d.pa)}" style="width:${d.pa}%"></div></div>
             </td>
