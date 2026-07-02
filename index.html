@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Frequência — URE Caieiras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:linear-gradient(145deg,#0a2f6c 0%,#041a3a 100%);min-height:100vh;padding:20px;color:#1e293b}
+.main-container{max-width:1400px;margin:0 auto;background:#0f1a24;border-radius:48px;padding:20px;box-shadow:0 30px 35px rgba(0,0,0,0.5),inset 0 1px 4px rgba(255,255,200,0.1);border:1px solid #d32f2f}
+.header{display:flex;justify-content:space-between;align-items:center;background:rgba(10,47,108,0.85);backdrop-filter:blur(4px);padding:12px 24px;border-radius:60px;margin-bottom:25px;flex-wrap:wrap;gap:15px}
+.logo-area{display:flex;align-items:center;gap:12px}
+.logo-area img{height:50px;background:white;padding:4px;border-radius:12px}
+.logo-text{font-size:1rem;font-weight:600;color:#ffec9e}
+.title-badge{background:#d32f2f;color:white;padding:6px 18px;border-radius:3rem;font-weight:bold;letter-spacing:1px;font-size:0.85rem}
+.report-date{color:#ffec9e;font-size:0.8rem;font-weight:600}
+.card{background:white;border-radius:32px;padding:1.5rem;margin-bottom:1.8rem;box-shadow:0 8px 20px rgba(0,0,0,0.2);border:1px solid #e0e4e9}
+.card-dark{background:#0f1a24;border:1px solid #1e3a5f;color:#e2e8f0}
+.section-title{font-size:1.4rem;font-weight:800;color:#0a2f6c;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.section-title .icon{font-size:1.6rem}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem}
+.summary-card{background:#f8fafc;border-radius:24px;padding:1.2rem;text-align:center;border:1px solid #e2e8f0;transition:transform 0.2s}
+.summary-card:hover{transform:translateY(-3px);box-shadow:0 8px 16px rgba(0,0,0,0.08)}
+.summary-card .sc-num{font-size:2rem;font-weight:800;color:#0a2f6c}
+.summary-card .sc-label{font-size:0.75rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-top:4px}
+.summary-card .sc-bar{height:6px;background:#e2e8f0;border-radius:10px;margin-top:10px;overflow:hidden}
+.summary-card .sc-bar-fill{height:100%;border-radius:10px;transition:width 0.6s ease}
+.bar-good{background:linear-gradient(90deg,#16a34a,#22c55e)}
+.bar-warn{background:linear-gradient(90deg,#d97706,#f59e0b)}
+.bar-danger{background:linear-gradient(90deg,#d32f2f,#ef4444)}
+.turma-section{margin-bottom:2rem}
+.turma-header{background:linear-gradient(135deg,#0a2f6c,#1a4080);color:white;border-radius:24px;padding:1rem 1.5rem;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;cursor:pointer;transition:all 0.2s}
+.turma-header:hover{background:linear-gradient(135deg,#d32f2f,#b71c1c)}
+.turma-header h3{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.turma-badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:60px}
+.badge-blue{background:rgba(255,255,255,0.15);color:#ffec9e}
+.badge-green{background:rgba(34,197,94,0.2);color:#86efac}
+.badge-red{background:rgba(211,47,47,0.2);color:#fca5a5}
+.badge-amber{background:rgba(245,158,11,0.2);color:#fcd34d}
+.table-wrap{overflow-x:auto;border-radius:20px;border:1px solid #e2e8f0;margin-bottom:1rem;display:none}
+.table-wrap.open{display:block}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+thead{background:#f1f5f9}
+th{padding:12px 14px;text-align:left;font-weight:700;color:#0a2f6c;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid #e2e8f0;white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#334155;white-space:nowrap}
+tr:hover{background:#fefce8}
+.risk-high{background:#fee2e2;color:#991b1b;font-weight:700;border-radius:60px;padding:2px 10px;display:inline-block;font-size:0.7rem}
+.risk-med{background:#ffedd5;color:#9a3412;font-weight:700;border-radius:60px;padding:2px 10px;display:inline-block;font-size:0.7rem}
+.risk-low{background:#656b67;color:#e4f407ec;font-weight:700;border-radius:60px;padding:2px 10px;display:inline-block;font-size:0.7rem}
+.pres-high{color:#16a34a;font-weight:700}
+.pres-med{color:#d97706;font-weight:700}
+.pres-low{color:#d32f2f;font-weight:700}
+.arrow-up{color:#16a34a;font-weight:700}
+.arrow-down{color:#d32f2f;font-weight:700}
+.arrow-eq{color:#94a3b8}
+.legend{display:flex;gap:1.5rem;flex-wrap:wrap;padding:1rem 1.5rem;background:#f8fafc;border-radius:20px;margin-bottom:1rem;font-size:0.75rem;color:#64748b}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+footer{text-align:center;margin-top:2rem;padding:1rem;color:#b4c8e0;font-size:0.75rem;border-top:1px solid #2c4c6e}
+.filter-bar{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center}
+.filter-bar label{font-size:0.8rem;font-weight:600;color:#94a3b8}
+.filter-bar select,.filter-bar input{background:#1a2a40;border:1px solid #2c4c6e;color:#e2e8f0;border-radius:60px;padding:8px 16px;font-size:0.8rem;font-family:'Inter',sans-serif}
+.filter-bar select:focus,.filter-bar input:focus{outline:none;border-color:#d32f2f}
+.global-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem}
+.gs-card{background:linear-gradient(135deg,#0a2f6c,#1a4080);border-radius:24px;padding:1.2rem;text-align:center;color:white;box-shadow:0 4px 15px rgba(10,47,108,0.3)}
+.gs-card .gs-num{font-size:2.2rem;font-weight:800;color:#ffec9e}
+.gs-card .gs-label{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;opacity:0.8;margin-top:4px}
+.toggle-icon{transition:transform 0.3s;font-size:1rem}
+.toggle-icon.open{transform:rotate(180deg)}
+.search-box{background:#1a2a40;border:1px solid #2c4c6e;color:#e2e8f0;border-radius:60px;padding:8px 16px;font-size:0.8rem;font-family:'Inter',sans-serif;width:250px}
+.search-box:focus{outline:none;border-color:#ffec9e}
+@media(max-width:768px){
+.main-container{padding:12px;border-radius:24px}
+.turma-header{padding:0.8rem 1rem}
+.header{padding:10px 16px;border-radius:30px}
+.summary-grid{grid-template-columns:repeat(2,1fr)}
+.global-stats{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+body{background:white;padding:10px}
+.main-container{box-shadow:none;border-radius:0;padding:10px}
+.turma-header{break-inside:avoid}
+.table-wrap{display:block!important}
+.card{box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+}
+</style>
+</head>
+<body>
+<div class="main-container">
+
+<div class="header">
+  <div class="logo-area">
+    <img src="https://i.ibb.co/0p01LzxB/logo3de.jpg" alt="Logo SEDUC SP" onerror="this.style.display='none'">
+    <div class="logo-text">URE CAIEIRAS - Seduc SP</div>
+  </div>
+  <div class="title-badge">RELATÓRIO DE FREQUÊNCIA</div>
+  <div class="report-date">SEMANA 21 - 2026</div>
+</div>
+
+<div class="card">
+  <div class="section-title"><span class="icon">📊</span> Painel Geral de Frequência</div>
+  <div class="global-stats" id="globalStats"></div>
+</div>
+
+<div class="card">
+  <div class="section-title"><span class="icon">🔍</span> Filtros e Busca</div>
+  <div class="filter-bar">
+    <label>Buscar aluno:</label>
+    <input type="text" class="search-box" id="searchBox" placeholder="Digite o nome do aluno...">
+    <label>Filtrar por etapa:</label>
+    <select id="filterEtapa">
+      <option value="todas">Todas as turmas</option>
+      <option value="6° ANO">6° Ano</option>
+      <option value="7° ANO">7° Ano</option>
+      <option value="8º ANO">8° Ano</option>
+      <option value="9º ANO">9° Ano</option>
+      <option value="1ª SERIE">1ª Série</option>
+      <option value="2ª SERIE">2ª Série</option>
+      <option value="3ª SERIE">3ª Série</option>
+    </select>
+    <label>Ordenar por:</label>
+    <select id="sortBy">
+      <option value="turma">Turma</option>
+      <option value="presAnual">Presença Anual</option>
+      <option value="presSemana">Presença Semana Atual</option>
+    </select>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#17c920"></div> Presença ≥ 70%</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div> Presença 50%–69%</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div> Presença &lt; 50%</div>
+    <div class="legend-item"><span class="arrow-up">▲</span> Melhora na semana</div>
+    <div class="legend-item"><span class="arrow-down">▼</span> Queda na semana</div>
+    <div class="legend-item"><span class="arrow-eq">●</span> Sem alteração</div>
+  </div>
+</div>
+
+<div id="reportContent"></div>
+
+<footer>
+  URE CAIEIRAS — Secretaria da Educação do Estado de São Paulo — Relatório de Frequência Escolar — 2026<br>
+  Documento para acompanhamento pedagógico.
+</footer>
+
+</div>
+
+<script>
+const DATA = [
+{a:"PEDRO THIAGO SOUZA FELIX DE OLIVEIRA",r:1,pa:70,ps:100,pp:75,t:"6° ANO A TARDE ANUAL"},
+{a:"ANA VICTORIA FERNANDES DOS SANTOS",r:1,pa:53,ps:50,pp:56,t:"6° ANO A TARDE ANUAL"},
+{a:"KAIO VITOR VIEIRA DE ASSIS",r:1,pa:72,ps:100,pp:44,t:"6° ANO A TARDE ANUAL"},
+{a:"GUSTAVO DOS SANTOS PASCOAL",r:1,pa:61,ps:100,pp:44,t:"6° ANO A TARDE ANUAL"},
+{a:"SOPHIA DIAS DA SILVA",r:1,pa:66,ps:100,pp:41,t:"6° ANO A TARDE ANUAL"},
+{a:"ESMERALDA OLIVEIRA DA SILVA",r:1,pa:56,ps:100,pp:16,t:"6° ANO A TARDE ANUAL"},
+{a:"ANTONY FERNANDO SOUZA ALVES",r:1,pa:72,ps:100,pp:85,t:"6° ANO B TARDE ANUAL"},
+{a:"ISAAC MIGUEL MENDES GOMES",r:1,pa:72,ps:100,pp:71,t:"6° ANO B TARDE ANUAL"},
+{a:"LUIS GUSTAVO OLIVEIRA DOS ANJOS",r:1,pa:74,ps:100,pp:68,t:"6° ANO B TARDE ANUAL"},
+{a:"HELOYSA ALVES TEIXEIRA",r:1,pa:73,ps:100,pp:26,t:"6° ANO B TARDE ANUAL"},
+{a:"DAVID MACIEL MARCOLINO DA SILVA",r:1,pa:72,ps:100,pp:94,t:"6° ANO C TARDE ANUAL"},
+{a:"EVELYN JULIA DA SILVA FIDELIS",r:1,pa:63,ps:100,pp:84,t:"6° ANO C TARDE ANUAL"},
+{a:"LORENZO CORDEIRO MATOS DA SILVEIRA",r:1,pa:44,ps:100,pp:58,t:"6° ANO C TARDE ANUAL"},
+{a:"GUSTAVO HENRIQUE DA SILVA LIMA PIRES",r:1,pa:60,ps:100,pp:58,t:"6° ANO C TARDE ANUAL"},
+{a:"RAFAELLA PEREIRA MIRANDA",r:1,pa:68,ps:100,pp:58,t:"6° ANO C TARDE ANUAL"},
+{a:"MATHEUS AUGUSTO COELHO TAVARES",r:1,pa:68,ps:100,pp:52,t:"6° ANO C TARDE ANUAL"},
+{a:"WILLIANS RAFAEL NOGUEIRA DOMINGOS",r:1,pa:43,ps:100,pp:39,t:"6° ANO C TARDE ANUAL"},
+{a:"RYAN SOUZA MENEZES",r:1,pa:67,ps:100,pp:23,t:"6° ANO C TARDE ANUAL"},
+{a:"ALEF KEMUEL SILVA RIBEIRO",r:1,pa:68,ps:100,pp:69,t:"6° ANO D TARDE ANUAL"},
+{a:"HEITOR DE OLIVEIRA SILVA",r:1,pa:61,ps:67,pp:56,t:"6° ANO D TARDE ANUAL"},
+{a:"LUIZA VITORIA RIBEIRO ALMEIDA",r:1,pa:18,ps:56,pp:19,t:"6° ANO D TARDE ANUAL"},
+{a:"GUILHERME SABINO RODRIGUES",r:1,pa:74,ps:100,pp:91,t:"7° ANO A TARDE ANUAL"},
+{a:"LUCAS DE MELO OLIVEIRA",r:1,pa:64,ps:100,pp:76,t:"7° ANO A TARDE ANUAL"},
+{a:"FERNANDA GUILHERME SOARES",r:1,pa:68,ps:100,pp:48,t:"7° ANO A TARDE ANUAL"},
+{a:"VITOR GABRIEL DIAS DOS SANTOS",r:1,pa:69,ps:100,pp:48,t:"7° ANO A TARDE ANUAL"},
+{a:"BRAYAN DE OLIVEIRA SOUZA",r:1,pa:70,ps:100,pp:39,t:"7° ANO A TARDE ANUAL"},
+{a:"LORENA DINIZ SILVA",r:1,pa:61,ps:100,pp:27,t:"7° ANO A TARDE ANUAL"},
+{a:"GIOVANA VITORIA HILARIO OLIVEIRA",r:1,pa:46,ps:100,pp:27,t:"7° ANO A TARDE ANUAL"},
+{a:"ANA CLARA DA SILVA MENDONCA",r:1,pa:69,ps:100,pp:24,t:"7° ANO A TARDE ANUAL"},
+{a:"DAVI RIBEIRO TEIXEIRA",r:1,pa:67,ps:100,pp:77,t:"7° ANO B TARDE ANUAL"},
+{a:"ISABELY SANTOS LIMA",r:1,pa:74,ps:100,pp:69,t:"7° ANO B TARDE ANUAL"},
+{a:"SOPHIA MARIA DOS SANTOS",r:1,pa:72,ps:100,pp:50,t:"7° ANO B TARDE ANUAL"},
+{a:"PEDRO HENRIQUE NOGUEIRA PORFIRIO",r:1,pa:58,ps:100,pp:46,t:"7° ANO B TARDE ANUAL"},
+{a:"LAUANY CRISTINA SANTOS DE ALMEIDA",r:1,pa:63,ps:100,pp:46,t:"7° ANO B TARDE ANUAL"},
+{a:"JOAO PEDRO CABRAL DE ARAUJO",r:1,pa:67,ps:100,pp:42,t:"7° ANO B TARDE ANUAL"},
+{a:"ISMAEL DE ARAUJO BRANCO",r:1,pa:31,ps:100,pp:35,t:"7° ANO B TARDE ANUAL"},
+{a:"MARIA CLARA TRAGL SILVA",r:1,pa:72,ps:100,pp:87,t:"7° ANO C TARDE ANUAL"},
+{a:"BRENO HENRIQUE SILVA SOUZA",r:1,pa:72,ps:100,pp:83,t:"7° ANO C TARDE ANUAL"},
+{a:"EZEQUIEL BATISTA DE JESUS",r:1,pa:71,ps:100,pp:80,t:"7° ANO C TARDE ANUAL"},
+{a:"LUCAS CARVALHO LOUREIRO",r:1,pa:57,ps:100,pp:57,t:"7° ANO C TARDE ANUAL"},
+{a:"ANA BEATRIZ DE SOUZA SANTOS DE ARAUJO",r:1,pa:74,ps:100,pp:50,t:"7° ANO C TARDE ANUAL"},
+{a:"BEATRIZ KEMILLY MENDES DE JESUS",r:1,pa:34,ps:63,pp:33,t:"7° ANO C TARDE ANUAL"},
+{a:"ENZO GABRIEL SANTOS ROCHA",r:1,pa:27,ps:63,pp:33,t:"7° ANO C TARDE ANUAL"},
+{a:"MATHEUS HENRIQUE PEREIRA DA SILVA",r:1,pa:56,ps:100,pp:90,t:"7° ANO D TARDE ANUAL"},
+{a:"MARIA VITÓRIA SILVA DOMINGUES",r:1,pa:62,ps:100,pp:79,t:"7° ANO D TARDE ANUAL"},
+{a:"ALVARO FERNANDES DE OLIVEIRA",r:1,pa:70,ps:100,pp:69,t:"7° ANO D TARDE ANUAL"},
+{a:"BRENO MOREIRA GALVES",r:1,pa:74,ps:100,pp:66,t:"7° ANO D TARDE ANUAL"},
+{a:"LUIZ HENRIQUE DE ARRUDA DIAS",r:1,pa:71,ps:100,pp:66,t:"7° ANO D TARDE ANUAL"},
+{a:"GABRIEL BOTELHO DA SILVA",r:1,pa:64,ps:100,pp:48,t:"7° ANO D TARDE ANUAL"},
+{a:"LARISSA GARCIA CAMPOS",r:1,pa:59,ps:100,pp:34,t:"7° ANO D TARDE ANUAL"},
+{a:"ENDREW MATHEUS QUIRINO DOS SANTOS",r:1,pa:37,ps:86,pp:21,t:"7° ANO D TARDE ANUAL"},
+{a:"KAIQUE CONRADO DA SILVA",r:1,pa:62,ps:100,pp:66,t:"8º ANO A TARDE ANUAL"},
+{a:"EVERTON RIBAS DE ANDRADE",r:1,pa:69,ps:100,pp:31,t:"8º ANO A TARDE ANUAL"},
+{a:"LEANDRO SOUZA DA SILVA",r:1,pa:68,ps:70,pp:31,t:"8º ANO A TARDE ANUAL"},
+{a:"ANDRE HENRIQUE PRETTI DE OLIVEIRA",r:1,pa:70,ps:100,pp:74,t:"8º ANO B TARDE ANUAL"},
+{a:"EMILLY VITORIA DA SILVA",r:1,pa:74,ps:100,pp:71,t:"8º ANO B TARDE ANUAL"},
+{a:"JULIANA SIQUEIRA DOS SANTOS",r:1,pa:70,ps:100,pp:65,t:"8º ANO B TARDE ANUAL"},
+{a:"MIGUEL ELOI DE OLIVEIRA",r:1,pa:55,ps:75,pp:42,t:"8º ANO B TARDE ANUAL"},
+{a:"MATEUS DOS SANTOS BARBALHO",r:1,pa:40,ps:75,pp:32,t:"8º ANO B TARDE ANUAL"},
+{a:"EMANUELY DA SILVA LIMA",r:1,pa:74,ps:100,pp:76,t:"8º ANO C TARDE ANUAL"},
+{a:"VICTOR HUGO MUNIZ OLIVEIRA",r:1,pa:74,ps:100,pp:72,t:"8º ANO C TARDE ANUAL"},
+{a:"GUSTAVO HENRIQUE SILVA NOCCE",r:1,pa:72,ps:100,pp:69,t:"8º ANO C TARDE ANUAL"},
+{a:"KAMILLY CRISTINE COSTA PINTO",r:1,pa:70,ps:100,pp:55,t:"8º ANO C TARDE ANUAL"},
+{a:"HENZO VINICIUS PESSOA DOS SANTOS",r:1,pa:53,ps:100,pp:48,t:"8º ANO C TARDE ANUAL"},
+{a:"SABRINA PEREIRA NOVAIS",r:1,pa:58,ps:50,pp:34,t:"8º ANO C TARDE ANUAL"},
+{a:"MARLLON RAFAEL RAMOS DOS SANTOS",r:1,pa:61,ps:25,pp:31,t:"8º ANO C TARDE ANUAL"},
+{a:"MIGUEL ARAUJO FERREIRA",r:1,pa:46,ps:100,pp:28,t:"8º ANO C TARDE ANUAL"},
+{a:"WELLYNGTON ANDRÉ DE OLIVEIRA SANTOS",r:1,pa:24,ps:25,pp:24,t:"8º ANO C TARDE ANUAL"},
+{a:"ALEXIA BARROS ANDRADE",r:1,pa:66,ps:100,pp:100,t:"8º ANO D TARDE ANUAL"},
+{a:"ARTHUR HENRIQUE SANTOS DA SILVA",r:1,pa:64,ps:100,pp:76,t:"8º ANO D TARDE ANUAL"},
+{a:"FRANCISCO VITOR DA SILVA ALMEIDA",r:1,pa:72,ps:100,pp:76,t:"8º ANO D TARDE ANUAL"},
+{a:"HENRIQUE RODRIGUES DE ALMEIDA BORGES GOMES DA COSTA",r:1,pa:61,ps:100,pp:73,t:"8º ANO D TARDE ANUAL"},
+{a:"MARIA VITORIA DA SILVA DE ALMEIDA",r:1,pa:70,ps:100,pp:73,t:"8º ANO D TARDE ANUAL"},
+{a:"ADRIELLY SALES NASCIMENTO",r:1,pa:60,ps:100,pp:64,t:"8º ANO D TARDE ANUAL"},
+{a:"JULIANA JAMILY DOS SANTOS MORAIS DE SOUZA",r:1,pa:68,ps:100,pp:58,t:"8º ANO D TARDE ANUAL"},
+{a:"FERNANDA COSTA OLIVEIRA",r:1,pa:50,ps:88,pp:42,t:"8º ANO D TARDE ANUAL"},
+{a:"IORI ADRIEL OLIVEIRA PINA",r:1,pa:53,ps:100,pp:33,t:"8º ANO D TARDE ANUAL"},
+{a:"GUILHERME FERREIRA DINI",r:1,pa:24,ps:50,pp:30,t:"8º ANO D TARDE ANUAL"},
+{a:"YASMIN EDUARDA PRETTI DE JESUS",r:1,pa:71,ps:100,pp:79,t:"8º ANO E TARDE ANUAL"},
+{a:"HIAGO DA SILVA SANTOS",r:1,pa:54,ps:100,pp:79,t:"8º ANO E TARDE ANUAL"},
+{a:"NIKOLI ARAUJO CORDEIRO",r:1,pa:69,ps:100,pp:76,t:"8º ANO E TARDE ANUAL"},
+{a:"NATHALY VITORIA DA CONCEIÇÃO SANTOS",r:1,pa:70,ps:100,pp:76,t:"8º ANO E TARDE ANUAL"},
+{a:"KAUE HENRIQUE DE ARRUDA ARAUJO",r:1,pa:56,ps:100,pp:69,t:"8º ANO E TARDE ANUAL"},
+{a:"IZADORA NASCIMENTO SILVA",r:1,pa:68,ps:100,pp:69,t:"8º ANO E TARDE ANUAL"},
+{a:"ISABELLY FERREIRA DOS SANTOS",r:1,pa:74,ps:100,pp:66,t:"8º ANO E TARDE ANUAL"},
+{a:"JULIA STEFFANE TEODOZIO DIAS",r:1,pa:70,ps:100,pp:62,t:"8º ANO E TARDE ANUAL"},
+{a:"KAUANY VITORIA PRETTI DA SILVA",r:1,pa:74,ps:100,pp:45,t:"8º ANO E TARDE ANUAL"},
+{a:"NYCOLLAS DE PAULA BARBOZA",r:1,pa:34,ps:44,pp:31,t:"8º ANO E TARDE ANUAL"},
+{a:"KEMILLY REBECA PEREIRA ALVES",r:1,pa:69,ps:100,pp:100,t:"9º ANO A TARDE ANUAL"},
+{a:"AGATHA BELFORT SOUSA DO CARMO",r:1,pa:70,ps:100,pp:97,t:"9º ANO A TARDE ANUAL"},
+{a:"MARIA ESTER DA SILVA SANTOS",r:1,pa:72,ps:100,pp:94,t:"9º ANO A TARDE ANUAL"},
+{a:"ENZO DE LIMA SANTOS",r:1,pa:52,ps:88,pp:73,t:"9º ANO A TARDE ANUAL"},
+{a:"MIGUEL AUGUSTO CORAINE FRASSI",r:1,pa:64,ps:100,pp:73,t:"9º ANO A TARDE ANUAL"},
+{a:"YURY THAYLER CAVALLIERI DA SILVA",r:1,pa:64,ps:100,pp:70,t:"9º ANO A TARDE ANUAL"},
+{a:"CRISTIAN GABRIEL MENDES DE SOUSA",r:1,pa:63,ps:100,pp:70,t:"9º ANO A TARDE ANUAL"},
+{a:"CAYO GABRIEL MENDES NOVAIS",r:1,pa:54,ps:63,pp:42,t:"9º ANO A TARDE ANUAL"},
+{a:"STHELA NOBRE DA SILVA",r:1,pa:74,ps:100,pp:85,t:"9º ANO B TARDE ANUAL"},
+{a:"EMANUELLY VIEIRA DE SOUZA",r:1,pa:60,ps:100,pp:82,t:"9º ANO B TARDE ANUAL"},
+{a:"PABLO EDUARDO SILVA DE SOUSA",r:1,pa:71,ps:100,pp:82,t:"9º ANO B TARDE ANUAL"},
+{a:"MARIA EDUARDA DIAS MORAES",r:1,pa:53,ps:91,pp:79,t:"9º ANO B TARDE ANUAL"},
+{a:"NICOLAS LUCIANO DA SILVA",r:1,pa:74,ps:100,pp:79,t:"9º ANO B TARDE ANUAL"},
+{a:"RYKELME ANDRADE RODRIGUES DE LIMA",r:1,pa:69,ps:100,pp:76,t:"9º ANO B TARDE ANUAL"},
+{a:"EVELLIM AGATHA CONRADO DA SILVA",r:1,pa:65,ps:100,pp:74,t:"9º ANO B TARDE ANUAL"},
+{a:"SARAH VITORIANO SIQUEIRA DE SENA",r:1,pa:72,ps:100,pp:71,t:"9º ANO B TARDE ANUAL"},
+{a:"MARILIA MACIEL DO NASCIMENTO",r:1,pa:38,ps:55,pp:24,t:"9º ANO B TARDE ANUAL"},
+{a:"JACKSON BEZERRA DE CARVALHO",r:1,pa:63,ps:100,pp:91,t:"9º ANO C TARDE ANUAL"},
+{a:"ISABELLA DOS SANTOS ALVES",r:1,pa:73,ps:100,pp:88,t:"9º ANO C TARDE ANUAL"},
+{a:"MARIANE OLIVEIRA SANTOS",r:1,pa:71,ps:100,pp:85,t:"9º ANO C TARDE ANUAL"},
+{a:"KAMILLY VITORIA DA SILVA",r:1,pa:66,ps:100,pp:85,t:"9º ANO C TARDE ANUAL"},
+{a:"PEDRO HENRIQUE FERREIRA SILVA",r:1,pa:58,ps:100,pp:82,t:"9º ANO C TARDE ANUAL"},
+{a:"MIGUEL FIDELIS DE SOUZA",r:1,pa:65,ps:100,pp:82,t:"9º ANO C TARDE ANUAL"},
+{a:"KAILAN DOS SANTOS NASCIMENTO",r:1,pa:74,ps:91,pp:82,t:"9º ANO C TARDE ANUAL"},
+{a:"GEOVANNA DA SILVA SANTOS",r:1,pa:62,ps:100,pp:76,t:"9º ANO C TARDE ANUAL"},
+{a:"ANDRE LUIZ DE QUEIROZ SA",r:1,pa:71,ps:91,pp:65,t:"9º ANO C TARDE ANUAL"},
+{a:"NICOLLY SOARES DA SILVA",r:1,pa:70,ps:100,pp:62,t:"9º ANO C TARDE ANUAL"},
+{a:"MIGUEL FERNANDO DA SILVA LIMA",r:1,pa:43,ps:82,pp:59,t:"9º ANO C TARDE ANUAL"},
+{a:"PIETRA MARTINS DE MELO",r:1,pa:55,ps:100,pp:59,t:"9º ANO C TARDE ANUAL"},
+{a:"THALIA VITORIA GREGORIO DA SILVA",r:1,pa:41,ps:100,pp:53,t:"9º ANO C TARDE ANUAL"},
+{a:"ROBERT RYAN SOUZA DOS SANTOS",r:1,pa:70,ps:100,pp:50,t:"9º ANO C TARDE ANUAL"},
+{a:"SAMARA KELLY DA SILVA DE OLIVEIRA",r:1,pa:17,ps:45,pp:32,t:"9º ANO C TARDE ANUAL"},
+{a:"LOHANY VITORIA ROCHA DA SILVA",r:1,pa:58,ps:93,pp:87,t:"9º ANO D TARDE ANUAL"},
+{a:"LUANA GEOVANA CARDOSO RIBEIRO",r:1,pa:73,ps:100,pp:87,t:"9º ANO D TARDE ANUAL"},
+{a:"NICOLAS DO NASCIMENTO SOUZA",r:1,pa:69,ps:100,pp:77,t:"9º ANO D TARDE ANUAL"},
+{a:"STHEFANNY DOS SANTOS COSTA",r:1,pa:70,ps:100,pp:77,t:"9º ANO D TARDE ANUAL"},
+{a:"EDUARDO DA SILVA DE MENEZES",r:1,pa:57,ps:100,pp:74,t:"9º ANO D TARDE ANUAL"},
+{a:"GUSTAVO DO NASCIMENTO SANTOS",r:1,pa:65,ps:100,pp:68,t:"9º ANO D TARDE ANUAL"},
+{a:"BRYAN GOLINART ALMEIDA DE GODOY",r:1,pa:74,ps:100,pp:61,t:"9º ANO D TARDE ANUAL"},
+{a:"REBECA BEATRIZ GARNECHO MARTINS",r:1,pa:59,ps:100,pp:61,t:"9º ANO D TARDE ANUAL"},
+{a:"BRUNO DOS SANTOS MORAIS DE SOUZA",r:1,pa:50,ps:100,pp:52,t:"9º ANO D TARDE ANUAL"},
+{a:"JOLIE WENDY OLIVEIRA LOPES",r:1,pa:71,ps:100,pp:100,t:"9º ANO E TARDE ANUAL"},
+{a:"RYAN DANIEL DA SILVA BARBOSA",r:1,pa:67,ps:100,pp:97,t:"9º ANO E TARDE ANUAL"},
+{a:"ANDREW LIEDISON PEREIRA DA COSTA",r:1,pa:63,ps:100,pp:83,t:"9º ANO E TARDE ANUAL"},
+{a:"PEDRO HENRIQUE GOMES DA SILVA",r:1,pa:63,ps:100,pp:77,t:"9º ANO E TARDE ANUAL"},
+{a:"LEANDRA YSADORA CARVALHO DOS SANTOS",r:1,pa:67,ps:100,pp:73,t:"9º ANO E TARDE ANUAL"},
+{a:"MATHEUS HENRIQUE COSTA RIBEIRO DE SOUZA",r:1,pa:73,ps:100,pp:73,t:"9º ANO E TARDE ANUAL"},
+{a:"ANA CLARA RIBEIRO DA SILVA",r:1,pa:64,ps:100,pp:73,t:"9º ANO E TARDE ANUAL"},
+{a:"ALICE REIS DOS SANTOS",r:1,pa:74,ps:100,pp:70,t:"9º ANO E TARDE ANUAL"},
+{a:"RAYSSA CANDIDO ALMEIDA",r:1,pa:73,ps:100,pp:70,t:"9º ANO E TARDE ANUAL"},
+{a:"EVELIN VITORIA PORTO DA SILVA ARAUJO",r:1,pa:69,ps:100,pp:67,t:"9º ANO E TARDE ANUAL"},
+{a:"MELISSA GREGORIO DA SILVA",r:1,pa:46,ps:100,pp:67,t:"9º ANO E TARDE ANUAL"},
+{a:"MARIA EDUARDA RAMALDES DE PAULA",r:1,pa:66,ps:100,pp:60,t:"9º ANO E TARDE ANUAL"},
+{a:"HANNAH CARLA AZEVEDO DE SOUSA",r:1,pa:74,ps:100,pp:57,t:"9º ANO E TARDE ANUAL"},
+{a:"ELEN GOMES PEREIRA",r:1,pa:64,ps:100,pp:53,t:"9º ANO E TARDE ANUAL"},
+{a:"JAMILE ALVES DE OLIVEIRA",r:1,pa:52,ps:93,pp:50,t:"9º ANO E TARDE ANUAL"},
+{a:"ANANDA DOS SANTOS LEANDRO",r:1,pa:38,ps:79,pp:40,t:"9º ANO E TARDE ANUAL"},
+{a:"LUKAS FELLIPE PORFIRIO DA SILVA",r:1,pa:57,ps:79,pp:40,t:"9º ANO E TARDE ANUAL"},
+{a:"JOICE SABRINA DOS SANTOS MORAIS DE SOUZA",r:1,pa:52,ps:79,pp:33,t:"9º ANO E TARDE ANUAL"},
+{a:"ELAINE ALVES DE SOUSA",r:1,pa:37,ps:100,pp:30,t:"9º ANO E TARDE ANUAL"},
+{a:"EMANUELY FERREIRA DE SOUZA DOS SANTOS",r:1,pa:71,ps:100,pp:97,t:"1ª SERIE A MANHA ANUAL"},
+{a:"RUTE GABRIELLY LIRA BRANDAO",r:1,pa:67,ps:100,pp:88,t:"1ª SERIE A MANHA ANUAL"},
+{a:"RONALD MIRANDA DE MATOS",r:1,pa:71,ps:100,pp:88,t:"1ª SERIE A MANHA ANUAL"},
+{a:"REBECA RAMOS DA SILVA CANDIDO",r:1,pa:73,ps:100,pp:85,t:"1ª SERIE A MANHA ANUAL"},
+{a:"NATHALY THAUANE FERREIRA PACHOLA",r:1,pa:73,ps:100,pp:82,t:"1ª SERIE A MANHA ANUAL"},
+{a:"GUILHERME HENRIQUE PEREIRA DA SILVA",r:1,pa:68,ps:100,pp:79,t:"1ª SERIE A MANHA ANUAL"},
+{a:"JULIA DOS ANJOS SANTOS",r:1,pa:56,ps:100,pp:74,t:"1ª SERIE A MANHA ANUAL"},
+{a:"KAUAN SOUZA DA SILVA",r:1,pa:50,ps:60,pp:71,t:"1ª SERIE A MANHA ANUAL"},
+{a:"REBECA RIKLINDHY OLIVEIRA DA SILVA",r:1,pa:74,ps:100,pp:65,t:"1ª SERIE A MANHA ANUAL"},
+{a:"DAVID ALVES ODILON DOS SANTOS",r:1,pa:64,ps:90,pp:62,t:"1ª SERIE A MANHA ANUAL"},
+{a:"SOPHIA DA SILVA RIBEIRO",r:1,pa:70,ps:100,pp:62,t:"1ª SERIE A MANHA ANUAL"},
+{a:"DAVI MARTINS DE JESUS",r:1,pa:64,ps:50,pp:59,t:"1ª SERIE A MANHA ANUAL"},
+{a:"WALLISON EDUARDO DA SILVA RODRIGUES",r:1,pa:71,ps:100,pp:59,t:"1ª SERIE A MANHA ANUAL"},
+{a:"DJENIFFER LUISA DA SILVA",r:1,pa:65,ps:100,pp:56,t:"1ª SERIE A MANHA ANUAL"},
+{a:"YGOR DA SILVA TEIXEIRA",r:1,pa:50,ps:100,pp:56,t:"1ª SERIE A MANHA ANUAL"},
+{a:"FELIPE RODRIGO FERRARI",r:1,pa:60,ps:100,pp:56,t:"1ª SERIE A MANHA ANUAL"},
+{a:"SAMUEL VITOR DOS SANTOS",r:1,pa:53,ps:100,pp:53,t:"1ª SERIE A MANHA ANUAL"},
+{a:"DANILO GREGORIO DA SILVA",r:1,pa:41,ps:70,pp:47,t:"1ª SERIE A MANHA ANUAL"},
+{a:"VICTOR OLIVEIRA DE LIMA PEREIRA",r:1,pa:31,ps:60,pp:47,t:"1ª SERIE A MANHA ANUAL"},
+{a:"DARIO MURILLO DOS SANTOS DE SOUSA",r:1,pa:53,ps:90,pp:41,t:"1ª SERIE A MANHA ANUAL"},
+{a:"EVELLYN VITORIA RIBAS DE ANDRADE",r:1,pa:59,ps:100,pp:38,t:"1ª SERIE A MANHA ANUAL"},
+{a:"DANIELI SANTOS VIEIRA DE LIMA",r:1,pa:56,ps:100,pp:32,t:"1ª SERIE A MANHA ANUAL"},
+{a:"ANNA LAURA NASCIMENTO DE JESUS",r:1,pa:46,ps:100,pp:32,t:"1ª SERIE A MANHA ANUAL"},
+{a:"ANA LUIZA DA SILVA SOUSA",r:1,pa:62,ps:90,pp:32,t:"1ª SERIE A MANHA ANUAL"},
+{a:"ELOA RIBEIRO ROCHA",r:1,pa:43,ps:80,pp:24,t:"1ª SERIE A MANHA ANUAL"},
+{a:"AYSHA VITORIA DA SILVA",r:1,pa:65,ps:100,pp:89,t:"1ª SERIE B MANHA ANUAL"},
+{a:"KIMBERLI MICHELE BARROS ANDRADE",r:1,pa:70,ps:100,pp:86,t:"1ª SERIE B MANHA ANUAL"},
+{a:"MIGUEL MENEZES DOS SANTOS",r:1,pa:73,ps:100,pp:86,t:"1ª SERIE B MANHA ANUAL"},
+{a:"THIAGO QUEIROZ TAVARES",r:1,pa:65,ps:100,pp:80,t:"1ª SERIE B MANHA ANUAL"},
+{a:"KEISY VITORIA ANDRADE MATIAS",r:1,pa:71,ps:100,pp:77,t:"1ª SERIE B MANHA ANUAL"},
+{a:"MAICK EVANGELISTA PRUDENCIO",r:1,pa:64,ps:70,pp:71,t:"1ª SERIE B MANHA ANUAL"},
+{a:"MARIA JULIA CRUZ MARIANO",r:1,pa:65,ps:100,pp:71,t:"1ª SERIE B MANHA ANUAL"},
+{a:"DAVI DOS SANTOS SILVA",r:1,pa:73,ps:100,pp:71,t:"1ª SERIE B MANHA ANUAL"},
+{a:"KETHILLIN DA SILVA ROCHA",r:1,pa:72,ps:100,pp:66,t:"1ª SERIE B MANHA ANUAL"},
+{a:"DEIVID NASCIMENTO DA SILVA",r:1,pa:60,ps:100,pp:60,t:"1ª SERIE B MANHA ANUAL"},
+{a:"DAVI DA SILVA GONCALVES",r:1,pa:62,ps:100,pp:46,t:"1ª SERIE B MANHA ANUAL"},
+{a:"MANUELLA CABRAL SANTOS",r:1,pa:74,ps:100,pp:43,t:"1ª SERIE B MANHA ANUAL"},
+{a:"GABRIEL NICOLAS DA SILVA DE MELO",r:1,pa:50,ps:90,pp:43,t:"1ª SERIE B MANHA ANUAL"},
+{a:"SAMUEL CESARIO MARTINS",r:1,pa:44,ps:90,pp:40,t:"1ª SERIE B MANHA ANUAL"},
+{a:"SAMIRA DO NASCIMENTO NUNES",r:1,pa:34,ps:60,pp:26,t:"1ª SERIE B MANHA ANUAL"},
+{a:"YAGO RYAN CRUZ NUNES",r:1,pa:20,ps:70,pp:20,t:"1ª SERIE B MANHA ANUAL"},
+{a:"SAMUEL DOS SANTOS FONTES",r:1,pa:68,ps:92,pp:71,t:"1ª SERIE C MANHA ANUAL"},
+{a:"GABRIEL LEANDRO REZENDE DA SILVA SOUZA",r:1,pa:67,ps:100,pp:69,t:"1ª SERIE C MANHA ANUAL"},
+{a:"ARIADYNI CRISTINA DA SILVA SUDRE",r:1,pa:74,ps:100,pp:69,t:"1ª SERIE C MANHA ANUAL"},
+{a:"ISABELLY PORTO DA SILVA",r:1,pa:46,ps:100,pp:66,t:"1ª SERIE C MANHA ANUAL"},
+{a:"ISRAEL RODRIGUES DE ALMEIDA",r:1,pa:73,ps:92,pp:63,t:"1ª SERIE C MANHA ANUAL"},
+{a:"RODRIGO JOAO DO NASCIMENTO BARBOZA",r:1,pa:51,ps:92,pp:63,t:"1ª SERIE C MANHA ANUAL"},
+{a:"GUSTAVO ANTUNES DE MORAES",r:1,pa:67,ps:100,pp:60,t:"1ª SERIE C MANHA ANUAL"},
+{a:"ERICK DA SILVA CONCEICAO",r:1,pa:68,ps:100,pp:60,t:"1ª SERIE C MANHA ANUAL"},
+{a:"WELLINGTON VINICIUS DE PAULA",r:1,pa:61,ps:92,pp:57,t:"1ª SERIE C MANHA ANUAL"},
+{a:"KAUANE LUIZA DA SILVA",r:1,pa:72,ps:100,pp:54,t:"1ª SERIE C MANHA ANUAL"},
+{a:"ANA LUIZA SANTOS DA SILVA",r:1,pa:69,ps:100,pp:51,t:"1ª SERIE C MANHA ANUAL"},
+{a:"HITALO SANTANA PEREIRA DA SILVA",r:1,pa:46,ps:75,pp:51,t:"1ª SERIE C MANHA ANUAL"},
+{a:"YGOR DOS SANTOS FONTELES",r:1,pa:58,ps:100,pp:51,t:"1ª SERIE C MANHA ANUAL"},
+{a:"MATHEUS MARQUES BARBOSA",r:1,pa:34,ps:100,pp:51,t:"1ª SERIE C MANHA ANUAL"},
+{a:"ISADORA SERAFIM DA COSTA CODONHO",r:1,pa:73,ps:100,pp:49,t:"1ª SERIE C MANHA ANUAL"},
+{a:"JUAN RODRIGUES ALVARES",r:1,pa:47,ps:67,pp:43,t:"1ª SERIE C MANHA ANUAL"},
+{a:"BRYAN SOUSA CANDIDO",r:1,pa:56,ps:75,pp:40,t:"1ª SERIE C MANHA ANUAL"},
+{a:"ANA CLARA ALVES DE LIMA CESAR",r:1,pa:58,ps:100,pp:40,t:"1ª SERIE C MANHA ANUAL"},
+{a:"YAGO DA SILVA ANDRADE",r:1,pa:51,ps:50,pp:34,t:"1ª SERIE C MANHA ANUAL"},
+{a:"AGATHA SOPHIA SANTOS DE OLIVEIRA",r:1,pa:70,ps:100,pp:34,t:"1ª SERIE C MANHA ANUAL"},
+{a:"KIMBERLLY DA SILVA RIOS DOS SANTOS",r:1,pa:68,ps:92,pp:34,t:"1ª SERIE C MANHA ANUAL"},
+{a:"TAMILI OLIVEIRA DOS SANTOS",r:1,pa:67,ps:85,pp:91,t:"1ª SERIE D MANHA ANUAL"},
+{a:"ANTHONY GABRIEL SANTOS DA SILVA",r:1,pa:56,ps:100,pp:79,t:"1ª SERIE D MANHA ANUAL"},
+{a:"NICOLAS PIETRO DOS SANTOS ANDRADE",r:1,pa:66,ps:100,pp:73,t:"1ª SERIE D MANHA ANUAL"},
+{a:"EMANUELLY BEATRIZ NUNES DA SILVA",r:1,pa:73,ps:100,pp:73,t:"1ª SERIE D MANHA ANUAL"},
+{a:"ISABELLY DOS SANTOS AJALA",r:1,pa:57,ps:100,pp:70,t:"1ª SERIE D MANHA ANUAL"},
+{a:"VITORIA CAROLINE VIRGOLINO DE ARAUJO",r:1,pa:74,ps:85,pp:67,t:"1ª SERIE D MANHA ANUAL"},
+{a:"DAVID MOREIRA GALVES",r:1,pa:73,ps:92,pp:64,t:"1ª SERIE D MANHA ANUAL"},
+{a:"KAUA EUJACIO DA SILVA",r:1,pa:61,ps:100,pp:52,t:"1ª SERIE D MANHA ANUAL"},
+{a:"ALICE NATALLY DE JESUS NUNES",r:1,pa:55,ps:100,pp:48,t:"1ª SERIE D MANHA ANUAL"},
+{a:"MATHEUS DA SILVA COSTA",r:1,pa:54,ps:77,pp:39,t:"1ª SERIE D MANHA ANUAL"},
+{a:"LUCAS MIGUEL MELO DOS SANTOS",r:1,pa:56,ps:77,pp:36,t:"1ª SERIE D MANHA ANUAL"},
+{a:"KAIONARA INGRID QUEIROZ DE LIMA",r:1,pa:69,ps:100,pp:89,t:"2ª SERIE A MANHA ANUAL"},
+{a:"KAUANE RAFAELLE DOS SANTOS BEZERRA",r:1,pa:74,ps:100,pp:86,t:"2ª SERIE A MANHA ANUAL"},
+{a:"HELOISA LOPES DOS SANTOS",r:1,pa:73,ps:100,pp:80,t:"2ª SERIE A MANHA ANUAL"},
+{a:"LUANA BEATRIZ DA SILVA DIAS",r:1,pa:73,ps:100,pp:77,t:"2ª SERIE A MANHA ANUAL"},
+{a:"TIAGO RODRIGUES DA SILVA",r:1,pa:73,ps:100,pp:77,t:"2ª SERIE A MANHA ANUAL"},
+{a:"MARIA EDUARDA PEREIRA CESARIO",r:1,pa:57,ps:100,pp:74,t:"2ª SERIE A MANHA ANUAL"},
+{a:"PEDRO VITOR SANTANA PEREIRA",r:1,pa:69,ps:100,pp:74,t:"2ª SERIE A MANHA ANUAL"},
+{a:"MATHEUS SANTANA",r:1,pa:62,ps:100,pp:71,t:"2ª SERIE A MANHA ANUAL"},
+{a:"ANNA JULIA FERREIRA LIMA",r:1,pa:48,ps:54,pp:71,t:"2ª SERIE A MANHA ANUAL"},
+{a:"LUIZ FELIPE BEZZUOLI E SILVA",r:1,pa:53,ps:100,pp:71,t:"2ª SERIE A MANHA ANUAL"},
+{a:"GABRYEL SOARES DA SILVA GUIMARAES",r:1,pa:38,ps:92,pp:69,t:"2ª SERIE A MANHA ANUAL"},
+{a:"MICAEL FABIO PEREIRA DOS SANTOS",r:1,pa:56,ps:100,pp:66,t:"2ª SERIE A MANHA ANUAL"},
+{a:"GIOVANA DA SILVA SANTOS",r:1,pa:74,ps:100,pp:60,t:"2ª SERIE A MANHA ANUAL"},
+{a:"JOELI NASCIMENTO SANTOS",r:1,pa:55,ps:85,pp:57,t:"2ª SERIE A MANHA ANUAL"},
+{a:"JOSE DO CARMO DA SILVA NETO",r:1,pa:42,ps:92,pp:54,t:"2ª SERIE A MANHA ANUAL"},
+{a:"KAUE ALVES RIBEIRO DOS SANTOS",r:1,pa:72,ps:100,pp:54,t:"2ª SERIE A MANHA ANUAL"},
+{a:"DANIEL DA SILVA MENDONÇA",r:1,pa:46,ps:100,pp:46,t:"2ª SERIE A MANHA ANUAL"},
+{a:"SARAH VITORIA DE JESUS SILVA",r:1,pa:34,ps:85,pp:40,t:"2ª SERIE A MANHA ANUAL"},
+{a:"LORENA LIMA ALCANTARA DOS ANJOS",r:1,pa:55,ps:92,pp:34,t:"2ª SERIE A MANHA ANUAL"},
+{a:"ERICK VASCONCELLOS DA SILVA DIAS",r:1,pa:74,ps:100,pp:88,t:"2ª SERIE B MANHA ANUAL"},
+{a:"KENNEDY PAULO FERNANDES",r:1,pa:73,ps:100,pp:84,t:"2ª SERIE B MANHA ANUAL"},
+{a:"VITOR HUGO FERNANDES COSTA",r:1,pa:61,ps:93,pp:78,t:"2ª SERIE B MANHA ANUAL"},
+{a:"LUIZ GUSTAVO DOS SANTOS MACEDO",r:1,pa:66,ps:100,pp:75,t:"2ª SERIE B MANHA ANUAL"},
+{a:"WILLIAM SOUZA DE ASSIS",r:1,pa:57,ps:100,pp:75,t:"2ª SERIE B MANHA ANUAL"},
+{a:"YASMIN DOS SANTOS FONTELES",r:1,pa:69,ps:100,pp:66,t:"2ª SERIE B MANHA ANUAL"},
+{a:"VALENTINA DE FREITAS GOMES",r:1,pa:72,ps:100,pp:63,t:"2ª SERIE B MANHA ANUAL"},
+{a:"MARCOS VINICIUS FERRAZ",r:1,pa:72,ps:93,pp:59,t:"2ª SERIE B MANHA ANUAL"},
+{a:"NICOLLAS LEONARDO DINIZ DA SILVA",r:1,pa:54,ps:64,pp:53,t:"2ª SERIE B MANHA ANUAL"},
+{a:"BRENO CRISTHOFER DOS SANTOS BENEDITO NOLASCO",r:1,pa:55,ps:100,pp:50,t:"2ª SERIE B MANHA ANUAL"},
+{a:"PAULO HENRIQUE DE LIMA BASTOS",r:1,pa:67,ps:100,pp:50,t:"2ª SERIE B MANHA ANUAL"},
+{a:"JULIA PAULA PASSOS DOS SANTOS",r:1,pa:49,ps:100,pp:47,t:"2ª SERIE B MANHA ANUAL"},
+{a:"KAIKY VIEIRA DOS SANTOS",r:1,pa:66,ps:100,pp:47,t:"2ª SERIE B MANHA ANUAL"},
+{a:"JHONES MATOS MIRANDA",r:1,pa:59,ps:50,pp:44,t:"2ª SERIE B MANHA ANUAL"},
+{a:"MILENA NUNES VIEIRA",r:1,pa:67,ps:100,pp:44,t:"2ª SERIE B MANHA ANUAL"},
+{a:"CLAUDIO IARLEM DOS SANTOS FURTADO",r:1,pa:51,ps:71,pp:34,t:"2ª SERIE B MANHA ANUAL"},
+{a:"HELLEN DE SOUZA SANTANNA",r:1,pa:43,ps:86,pp:31,t:"2ª SERIE B MANHA ANUAL"},
+{a:"MICAELE APARECIDA LIMA VILAS BOAS",r:1,pa:33,ps:93,pp:28,t:"2ª SERIE B MANHA ANUAL"},
+{a:"FERNANDA ALVES DE OLIVEIRA",r:1,pa:33,ps:50,pp:25,t:"2ª SERIE B MANHA ANUAL"},
+{a:"SELMA MARIA DE OLIVEIRA FARIA ROSA",r:1,pa:46,ps:71,pp:22,t:"2ª SERIE B MANHA ANUAL"},
+{a:"MARIA EDUARDA ALVES MATEUS",r:1,pa:73,ps:100,pp:100,t:"2ª SERIE C MANHA ANUAL"},
+{a:"EDUARDA DE SOUZA BARROS",r:1,pa:67,ps:100,pp:94,t:"2ª SERIE C MANHA ANUAL"},
+{a:"GUILHERME DE OLIVEIRA MATHIAS",r:1,pa:71,ps:75,pp:86,t:"2ª SERIE C MANHA ANUAL"},
+{a:"WALLACY MIGUEL VILELA GOMES",r:1,pa:73,ps:100,pp:78,t:"2ª SERIE C MANHA ANUAL"},
+{a:"NICOLLAS SILVERIO SOBRINHO",r:1,pa:60,ps:92,pp:72,t:"2ª SERIE C MANHA ANUAL"},
+{a:"MARCOS PAULO DOS SANTOS JUNIOR",r:1,pa:61,ps:100,pp:69,t:"2ª SERIE C MANHA ANUAL"},
+{a:"RENAN ALVES",r:1,pa:64,ps:75,pp:67,t:"2ª SERIE C MANHA ANUAL"},
+{a:"WANDERSSON DOS SANTOS SALUSTIANO",r:1,pa:70,ps:75,pp:67,t:"2ª SERIE C MANHA ANUAL"},
+{a:"ANA REGINA DOS SANTOS",r:1,pa:37,ps:83,pp:58,t:"2ª SERIE C MANHA ANUAL"},
+{a:"RAQUEL VITÓRIA ANDRADE DE SOUZA PEDRO",r:1,pa:62,ps:100,pp:58,t:"2ª SERIE C MANHA ANUAL"},
+{a:"RENATO HENRIQUE MACEDO DA SILVA",r:1,pa:62,ps:100,pp:58,t:"2ª SERIE C MANHA ANUAL"},
+{a:"MIGUEL DOS SANTOS OLIVEIRA",r:1,pa:74,ps:100,pp:56,t:"2ª SERIE C MANHA ANUAL"},
+{a:"SOFIA CORREA DOS REIS",r:1,pa:27,ps:100,pp:44,t:"2ª SERIE C MANHA ANUAL"},
+{a:"MIGUEL SILVA TEIXEIRA",r:1,pa:57,ps:100,pp:44,t:"2ª SERIE C MANHA ANUAL"},
+{a:"EMILLY CAROLINE SILVA SOUZA",r:1,pa:33,ps:83,pp:42,t:"2ª SERIE C MANHA ANUAL"},
+{a:"FELIPE DO NASCIMENTO SOUZA",r:1,pa:58,ps:92,pp:36,t:"2ª SERIE C MANHA ANUAL"},
+{a:"IAN SERGIO SOARES DA SILVA",r:1,pa:60,ps:92,pp:36,t:"2ª SERIE C MANHA ANUAL"},
+{a:"ANNA VICTÓRIA SOUSA MARTINS DA SILVA",r:1,pa:68,ps:100,pp:97,t:"3ª SERIE A MANHA ANUAL"},
+{a:"RANIELLI PEREIRA DOS SANTOS",r:1,pa:72,ps:100,pp:65,t:"3ª SERIE A MANHA ANUAL"},
+{a:"ELIELSON SILVA MONTEIRO",r:1,pa:71,ps:100,pp:65,t:"3ª SERIE A MANHA ANUAL"},
+{a:"DEIVID OLIVEIRA DIAS SANTIAGO",r:1,pa:62,ps:55,pp:55,t:"3ª SERIE A MANHA ANUAL"},
+{a:"MOISES ANTUNES DA SILVA",r:1,pa:58,ps:100,pp:48,t:"3ª SERIE A MANHA ANUAL"},
+{a:"GEOVANA BORBA ROCHA",r:1,pa:48,ps:100,pp:39,t:"3ª SERIE A MANHA ANUAL"},
+{a:"JULIA RIBEIRO DA SILVA",r:1,pa:50,ps:91,pp:35,t:"3ª SERIE A MANHA ANUAL"},
+{a:"THALITA GALTER DE OLIVEIRA",r:1,pa:54,ps:91,pp:29,t:"3ª SERIE A MANHA ANUAL"},
+{a:"JERONIMO TELES DE ASSIS JUNIOR",r:1,pa:48,ps:55,pp:23,t:"3ª SERIE A MANHA ANUAL"},
+{a:"DAVI ALVES ODILON DOS SANTOS",r:1,pa:72,ps:100,pp:84,t:"3ª SERIE B MANHA ANUAL"},
+{a:"SALETE BEZERRA DE CARVALHO",r:1,pa:70,ps:100,pp:84,t:"3ª SERIE B MANHA ANUAL"},
+{a:"BRAYAN CAMINADA DE OLIVEIRA PRETO",r:1,pa:67,ps:92,pp:77,t:"3ª SERIE B MANHA ANUAL"},
+{a:"JULIO REIS DOS SANTOS",r:1,pa:72,ps:100,pp:71,t:"3ª SERIE B MANHA ANUAL"},
+{a:"MATHEUS DA SILVA SALVADOR",r:1,pa:62,ps:100,pp:65,t:"3ª SERIE B MANHA ANUAL"},
+{a:"IZABELLA DE LIMA DALTON",r:1,pa:66,ps:100,pp:58,t:"3ª SERIE B MANHA ANUAL"},
+{a:"BRENO ALMEIDA DE CASTRO",r:1,pa:74,ps:92,pp:55,t:"3ª SERIE B MANHA ANUAL"},
+{a:"CAMILLY DE SOUZA BARBOSA",r:1,pa:65,ps:100,pp:52,t:"3ª SERIE B MANHA ANUAL"},
+{a:"SAMARA GALENO DOS SANTOS",r:1,pa:67,ps:77,pp:50,t:"3ª SERIE B MANHA ANUAL"},
+{a:"GUILHERME GONDIM DOS SANTOS",r:1,pa:41,ps:62,pp:48,t:"3ª SERIE B MANHA ANUAL"},
+{a:"MARIA ALICE DE LIMA LOURENCO",r:1,pa:46,ps:92,pp:48,t:"3ª SERIE B MANHA ANUAL"},
+{a:"GABRIELA APARECIDA RIBEIRO",r:1,pa:73,ps:100,pp:48,t:"3ª SERIE B MANHA ANUAL"},
+{a:"ANA CLARA RIBEIRO CRUZ",r:1,pa:43,ps:62,pp:45,t:"3ª SERIE B MANHA ANUAL"},
+{a:"HELLEN LOPES DOS SANTOS OLIVEIRA",r:1,pa:51,ps:85,pp:42,t:"3ª SERIE B MANHA ANUAL"},
+{a:"ROBERTA FERREIRA DE SOUZA",r:1,pa:49,ps:100,pp:42,t:"3ª SERIE B MANHA ANUAL"},
+{a:"ANNA KAROLYNA PORFIRIO DA SILVA",r:1,pa:45,ps:69,pp:23,t:"3ª SERIE B MANHA ANUAL"},
+{a:"SOFIA VITORIA DE BARROS NASCIMENTO",r:1,pa:68,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"GIOVANNA VITORIA SOUZA CRISPIM",r:1,pa:53,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"YTALO FRANCISCO SALVADOR PEREIRA",r:1,pa:66,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"ISABELLY DAIANE ALVES DE OLIVEIRA",r:1,pa:60,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"VICTOR HUGO SEIXAS ALVES",r:1,pa:73,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"KAUANY SILVA OLIVEIRA",r:1,pa:61,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"KAUAN ALVES DOS SANTOS",r:1,pa:73,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"CLEIDSON DO NASCIMENTO",r:1,pa:66,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"KAIQUE ALONSO FERNANDES DOS SANTOS",r:1,pa:72,ps:100,pp:100,t:"3ª SERIE C MANHA ANUAL"},
+{a:"TIAGO FERRAZ ALMEIDA",r:1,pa:71,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"JULIA GABRIELA MELO PEREIRA",r:1,pa:64,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"VICTOR KAUE SANTOS BRANDAO",r:1,pa:56,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"YURY PIETRO SILVA DE CHRISTO",r:1,pa:50,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"MATHEUS DA SILVA ROCHA",r:1,pa:71,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"FLAVIA ANTONIA DO NASCIMENTO OLIVEIRA",r:1,pa:61,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"BRUNO FERNANDO DE OLIVEIRA SILVA",r:1,pa:67,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"BEATRIZ LIMA SAMPAIO",r:1,pa:62,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"RAFAEL LOPES MONTANHA DA SILVA",r:1,pa:59,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"STHEFANY PEREIRA ALVES",r:1,pa:53,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"ANDERSON MONTEIRO DE BRITO",r:1,pa:65,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"TAMIRES SANTOS CRESTANI",r:1,pa:67,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"BEATRIZ DOS SANTOS ALMEIDA BARBOSA",r:1,pa:58,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"ESTEFANE HILARI DOS SANTOS BARROSO",r:1,pa:50,ps:100,pp:100,t:"3ª SERIE D MANHA ANUAL"},
+{a:"MARIA EDUARDA CAVALCANTE MARTINS",r:1,pa:61,ps:100,pp:95,t:"3ª SERIE D MANHA ANUAL"},
+{a:"DIOGO HENRIQUE DE JESUS SILVA",r:1,pa:71,ps:100,pp:90,t:"3ª SERIE D MANHA ANUAL"}
+];
+
+function avg(arr,key){return arr.length?(arr.reduce((s,d)=>s+d[key],0)/arr.length):0}
+function cls(v,thr=[70,50]){return v>=thr[0]?'pres-high':v>=thr[1]?'pres-med':'pres-low'}
+function barCls(v){return v>=70?'bar-good':v>=50?'bar-warn':'bar-danger'}
+function arrow(a,b){return a>b?'<span class="arrow-up">&#9650;+'+(a-b)+'%</span>':a<b?'<span class="arrow-down">&#9660;'+(a-b)+'%</span>':'<span class="arrow-eq">&#9679;</span>'}
+
+// Group by turma
+const turmas={};
+DATA.forEach(d=>{if(!turmas[d.t])turmas[d.t]=[];turmas[d.t].push(d)});
+const turmaKeys=Object.keys(turmas);
+
+// Render global stats
+const totalAlunos=DATA.length;
+const avgAnual=avg(DATA,'pa');
+const avgSemana=avg(DATA,'ps');
+const avgAnterior=avg(DATA,'pp');
+const criticos=DATA.filter(d=>d.pa<50).length;
+const melhora=DATA.filter(d=>d.ps>d.pp).length;
+document.getElementById('globalStats').innerHTML=`
+<div class="gs-card"><div class="gs-num">${totalAlunos}</div><div class="gs-label">Total de Alunos</div></div>
+<div class="gs-card"><div class="gs-num">${avgAnual.toFixed(1)}%</div><div class="gs-label">Presença Anual Média</div></div>
+<div class="gs-card"><div class="gs-num">${avgSemana.toFixed(1)}%</div><div class="gs-label">Presença Semana Atual</div></div>
+<div class="gs-card"><div class="gs-num">${criticos}</div><div class="gs-label">Críticos (&lt;50%)</div></div>
+<div class="gs-card"><div class="gs-num">${melhora}</div><div class="gs-label">Em Melhora</div></div>
+<div class="gs-card"><div class="gs-num">${turmaKeys.length}</div><div class="gs-label">Turmas</div></div>
+`;
+
+function renderReport(){
+const search=document.getElementById('searchBox').value.toUpperCase();
+const etapa=document.getElementById('filterEtapa').value;
+const sort=document.getElementById('sortBy').value;
+let html='';
+
+turmaKeys.forEach(tk=>{
+  // filter by etapa
+  if(etapa!=='todas'&&!tk.includes(etapa))return;
+
+  let alunos=turmas[tk];
+  // filter by search
+  if(search)alunos=alunos.filter(d=>d.a.toUpperCase().includes(search));
+  if(!alunos.length)return;
+
+  // sort
+  if(sort==='presAnual')alunos.sort((a,b)=>a.pa-b.pa);
+  else if(sort==='presSemana')alunos.sort((a,b)=>a.ps-b.ps);
+
+  const tAvgPa=avg(alunos,'pa');
+  const tAvgPs=avg(alunos,'ps');
+  const tAvgPp=avg(alunos,'pp');
+  const tCrit=alunos.filter(d=>d.pa<50).length;
+  const tMelh=alunos.filter(d=>d.ps>d.pp).length;
+  const turmaId=tk.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'');
+
+  html+=`
+  <div class="turma-section" data-turma="${turmaId}">
+    <div class="turma-header" onclick="toggleTurma('${turmaId}')">
+      <h3><span style="font-size:1.2rem">📚</span> ${tk} <span style="opacity:0.7;font-weight:400;font-size:0.8rem">(${alunos.length} alunos)</span></h3>
+      <div class="turma-badges">
+        <span class="badge badge-blue">Média Anual: ${tAvgPa.toFixed(1)}%</span>
+        <span class="badge ${tAvgPs>=70?'badge-green':'badge-amber'}">Semana: ${tAvgPs.toFixed(1)}%</span>
+        ${tCrit>0?`<span class="badge badge-red">${tCrit} crítico(s)</span>`:''}
+        <span class="toggle-icon" id="icon_${turmaId}">▼</span>
+      </div>
+    </div>
+    <div class="table-wrap" id="table_${turmaId}">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Aluno(a)</th>
+            <th>Risco</th>
+            <th>Presença Anual</th>
+            <th>Semana Atual</th>
+            <th>Semana Anterior</th>
+            <th>Tendência</th>
+          </tr>
+        </thead>
+        <tbody>
+        ${alunos.map((d,i)=>{
+          const diff=d.ps-d.pp;
+          return `<tr>
+            <td style="color:#94a3b8;font-weight:600">${i+1}</td>
+            <td style="font-weight:600;color:#0a2f6c">${d.a}</td>
+            <td><span class="${d.pa<50?'risk-high':d.pa<70?'risk-med':'risk-low'}">${d.pa<50?'ALTO':d.pa<70?'MÉDIO':'ATENÇÃO'}</span></td>
+            <td><span class="${cls(d.pa)}">${d.pa.toFixed(1)}%</span>
+              <div class="sc-bar" style="width:80px;height:4px;margin-top:3px"><div class="sc-bar-fill ${barCls(d.pa)}" style="width:${d.pa}%"></div></div>
+            </td>
+            <td><span class="${cls(d.ps)}">${d.ps.toFixed(1)}%</span></td>
+            <td><span class="${cls(d.pp)}">${d.pp.toFixed(1)}%</span></td>
+            <td>${arrow(d.ps,d.pp)}</td>
+          </tr>`;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+});
+
+if(!html)html='<div class="card" style="text-align:center;padding:2rem;color:#94a3b8">Nenhum resultado encontrado com os filtros aplicados.</div>';
+document.getElementById('reportContent').innerHTML=html;
+}
+
+function toggleTurma(id){
+const el=document.getElementById('table_'+id);
+const icon=document.getElementById('icon_'+id);
+if(el.classList.contains('open')){el.classList.remove('open');icon.classList.remove('open')}
+else{el.classList.add('open');icon.classList.add('open')}
+}
+
+document.getElementById('searchBox').addEventListener('input',renderReport);
+document.getElementById('filterEtapa').addEventListener('change',renderReport);
+document.getElementById('sortBy').addEventListener('change',renderReport);
+
+renderReport();
+</script>
+</body>
+</html>
